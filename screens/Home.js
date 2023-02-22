@@ -144,6 +144,8 @@ const Home = () => {
             backgroundColor: "#fff",
             alignItems: 'center',
             justifyContent: 'center',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
 
         },
         containerchat: {
