@@ -45,12 +45,13 @@ import React, {
       }, [navigation]);
 
     useLayoutEffect(() => {
-
         const collectionRef = collection(database, 'chats');
         const q = query(collectionRef, orderBy('createdAt', 'desc'));
+        console.log(q);
 
     const unsubscribe = onSnapshot(q, querySnapshot => {
         console.log('querySnapshot unsusbscribe');
+        
           setMessages(
             querySnapshot.docs.map(doc => ({
               _id: doc.data()._id,
@@ -59,6 +60,8 @@ import React, {
               user: doc.data().user
             }))
           );
+          console.log(messages[1]);
+
         });
     return unsubscribe;
       }, []);

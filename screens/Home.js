@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
+import React, { useState,useEffect,useLayoutEffect} from "react";
+import { View, TouchableOpacity, Text, Image, StyleSheet ,  FlatList,  SafeAreaView,} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from '@expo/vector-icons';
 import colors from '../colors';
@@ -8,11 +8,66 @@ import { signOut } from 'firebase/auth';
 import { AntDesign } from '@expo/vector-icons';
 import { auth, database } from '../config/firebase';
 import { Button } from "react-native-web";
-
+import {
+    collection,
+    addDoc,
+    orderBy,
+    query,
+    where,
+    doc,
+    onSnapshot
+  } from 'firebase/firestore'
 const catImageUrl = "https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=49ed3252c0b2ffb49cf8b508892e452d";
 
+const DATA = [
+    {
+        id: 'Home',
+        title: 'Home',
+    },
+    {
+        id: 'Checkibm',
+        title: 'Check IBM',
+    },
+    {
+        id: 'Yourday',
+        title: 'Your day',
+    },
+    {
+        id: 'Nutrition',
+        title: 'Food Advise',
+    },
+    {
+        id: 'Chat',
+        title: 'Go To chatbox',
+    },
+    {
+        id: 'Profile',
+        title: 'Go To profile',
+    },
+    {
+        id: 'Newscontrol',
+        title: 'Adm Screen',
+    }
+  ];
+  const Item = ({item, onPress, backgroundColor, textColor}) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, {backgroundColor}]}>
+      <Text style={[styles.title, {color: textColor}]}>{item.title}</Text>
+    </TouchableOpacity>
+  );
+  
 const Home = () => {
-
+    useLayoutEffect(() => {
+        const collectionRef = collection(database, 'users');
+        const q = query(collectionRef,where("uid", "==", auth.currentUser.uid));
+        const unsubscribe = onSnapshot(q, querySnapshot => {
+            querySnapshot.forEach((doc) => {
+                // if(doc.data().role ==0 && DATA.length >=6){
+                //   DATA.splice(6, 1);
+                //     console.log(DATA.length)         
+                // }
+              });
+            });
+      }, []);
     const navigation = useNavigation();
 
     const onSignOut = () => {
@@ -36,35 +91,36 @@ const Home = () => {
         });
     }, [navigation]);
 
+    useEffect(() => {
+       
+    }, [navigation]);
+    const [selectedId, setSelectedId] = useState();
+
+  const renderItem = ({item}) => {
+    const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
+    const color = item.id === selectedId ? 'white' : 'black';
+
     return (
-        <View style={styles.container}>
-                <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Onboarding1")}>
-                    <Text>Check IBM</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Yourday")}>
-                    <Text>Your day</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Nutrition")}>
-                    <Text>Food Advise</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Chat")}>
-                    <Text>Go To chatbox</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Chat")}>
-                    <Text>Go To profile</Text>
-                </TouchableOpacity>
-            {/* <View style={styles.containerchat}>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("Chat")}
-                    style={styles.chatButton}>
-                    <Entypo name="chat" size={24} color={colors.lightGray} />
-                </TouchableOpacity>
-            </View> */}
-        </View>
-
-    );
+      <Item
+        item={item}
+        onPress={() =>  navigation.navigate(item.id)}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+        );
     };
+    return (
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            extraData={selectedId}
+          />
+        </SafeAreaView>
+      );
+    };
+
 
     export default Home;
 
@@ -72,6 +128,17 @@ const Home = () => {
         button:{
             padding: 16,
         },
+        item: {
+            padding: 20,
+            marginVertical: 8,
+            marginHorizontal: 16,
+            justifyContent: 'center',
+            alignItems: 'center'
+
+          },
+          title: {
+            fontSize: 32,
+          },
         container:{
             flex:1,
             backgroundColor: "#fff",

@@ -11,6 +11,9 @@ import Home from './screens/Home';
 import Onboarding1 from './screens/Onboarding1';
 import Yourday from './screens/Yourday';
 import Nutrition from './screens/Nutrition';
+import Newscontrol from './screens/Newscontrol';
+import Profile from './screens/Profile';
+
 
 const Stack = createStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -29,9 +32,12 @@ function ChatStack() {
     <Stack.Navigator defaultScreenOptions={Home}>
       <Stack.Screen name='Home' component={Home} />
       <Stack.Screen name='Chat' component={Chat} />
-      <Stack.Screen name='Onboarding1' component={Onboarding1} />
+      <Stack.Screen name='Checkibm' component={Onboarding1} />
       <Stack.Screen name='Yourday' component={Yourday} />
       <Stack.Screen name='Nutrition' component={Nutrition} />
+      <Stack.Screen name='Newscontrol' component={Newscontrol} />
+      <Stack.Screen name='Profile' component={Profile} />
+
 
     </Stack.Navigator>
   );

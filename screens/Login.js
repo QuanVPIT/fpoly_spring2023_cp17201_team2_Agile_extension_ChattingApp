@@ -13,37 +13,47 @@ export default function Login({ navigation }) {
     if (email !== "" && password !== "") {
       signInWithEmailAndPassword(auth, email, password)
         .then(() => console.log("Login success"))
+
         .catch((err) => Alert.alert("Login error", err.message));
     }
   };
   
   return (
     <View style={styles.container}>
-      <Image source={backImage} style={styles.backImage} />
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
-        <Text style={styles.title}>Log In</Text>
-         <TextInput
-        style={styles.input}
-        placeholder="Enter email"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        textContentType="emailAddress"
-        autoFocus={true}
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter password"
-        autoCapitalize="none"
-        autoCorrect={false}
-        secureTextEntry={true}
-        textContentType="password"
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
-      <TouchableOpacity style={styles.button} onPress={onHandleLogin}>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+
+          <Text style={{ margin: 10, color: "black", fontWeight: "bold", fontSize: 20 }}>Welcome Back</Text>
+        
+        <View style={styles.containerinpt}>
+            <TextInput
+            style={styles.input}
+            placeholder="Enter email"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            autoFocus={true}
+            value={email}
+            onChangeText={(text) => setEmail(text)}/>
+        </View>
+        <View style={styles.containerinpt}>
+              <TextInput
+              style={styles.input}
+              placeholder="Enter password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              secureTextEntry={true}
+              textContentType="password"
+              value={password}
+              onChangeText={(text) => setPassword(text)}/>
+        </View>
+    
+
+
+      {/* <TouchableOpacity style={styles.button} onPress={onHandleLogin}>
         <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 18}}> Log In</Text>
       </TouchableOpacity>
       <View style={{marginTop: 20, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
@@ -51,13 +61,50 @@ export default function Login({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
           <Text style={{color: '#f57c00', fontWeight: '600', fontSize: 14}}> Sign Up</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
       </SafeAreaView>
+      <View style={styles.containerinpt2}>
+      </View>
       <StatusBar barStyle="light-content" />
+      <View style={styles.footer}>
+                <TouchableOpacity style={styles.ViewButton} onPress={onHandleLogin}>
+                    <Text style={{ color: "white" }}>Login</Text>
+                </TouchableOpacity>
+                <Image style={{ width: 350 }}
+                    source={require('../assets/images/or.jpg')}></Image>
+                <Image style={{ margin: 5 }}
+                    source={require('../assets/images/Login-Social-Media.png')}></Image>
+                     <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+                     <Text style={{ margin: 10, color: "black" }}>Don’t have an account yet?  <Text style={{ color: "gray" }}>Register</Text></Text>
+              </TouchableOpacity>
+            </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
+  footer: {
+    flex: 3,
+    alignItems: 'center',
+
+},
+containerinpt:{
+  margin: 6,
+},
+containerinpt2:{
+  height: 55,
+  marginbottom: 36
+},
+ViewButton: {
+  padding: 5,
+  width: 350,
+  height: 55,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: "#92A3FD",
+  margin: 10,
+  borderRadius: 99,
+},
   container: {
     flex: 1,
     backgroundColor: "#fff",
